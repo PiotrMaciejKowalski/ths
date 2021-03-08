@@ -1,0 +1,34 @@
+---
+title: "Zadania z podstaw programowania"
+output: html_notebook
+---
+
+# Zadanie 1
+
+Przygotowac funkcje, która w zależności od podanego parametru wypisuje litery 
+alfabetu w pętli (po 'z' znowu 'a') i przerywa po wypisaniu n liter
+
+# Zadanie 2
+
+Przygotowac funkcje, ktora w zaleznosci od podanego rysuje na ekranie odpowiednia duza choinke
+np dla n=5 powinno narysować
+    *
+   * *
+  * * *
+ * * * *
+* * * * *
+    *
+    
+# Zadanie 3
+
+Przygotować funkcję, ktora oblicza sume wszystkich dzielnikow pierwszych danej liczby
+
+# Zadanie 4
+
+Napisać funkcje, ktora znajduje najczesciej powtarzajaca litere się w tekscie
+
+# Zadanie 5
+
+Napisać funkcję, która znajduje liczbę odwrotną w mnożeniu w ciele $Z_p$
+Funkcja niech działa przy założeniu że p jest liczbą pierwszą - bowiem tylko wtedy jesteśmy
+pewni istnienia elementu odwrotnego w mnożeniu

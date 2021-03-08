@@ -1,0 +1,345 @@
+---
+title: "Elementy programowanie w R"
+author: "Piotr Kowalski"
+date: "5 03 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Powtórzenie ze składni R
+
+Zaczniemy od krótkiego przypomnienia z zakresu tworzenia i pracy ze skryptami R
+
+## Operatory przypisania
+
+W R dostępne jest wiele różnych sposobów na przypisanie wartości do konkretnych etykiet.
+
+```{r}
+x = 3
+y <- 4
+assign('z', 5)
+6 -> w
+```
+
+Co obserwujemy
+
+```{r}
+print(c(x,y,z,w))
+```
+
+Przypomnijmy, że `c()` służy do tworzenia wektorów z danych
+
+## Operatory agregujące 
+
+Pracując z wektorami czesto potrzebujemy generować wartości je podsumowujące przez konkretne wartości. 
+
+* min, max, - aby wybrać skrajne elementy w porządku,
+* length - aby wybrać długość wektora danych
+* range - aby łacznie uzyskać min i max, 
+* sum, prod - aby wyliczyć sumy oraz iloczyny elementów z wektora
+* mean, var, sd - aby policzyć podstawowe statystyki ze zbioru danych
+
+
+
+```{r}
+wek = c(x,y,z,w)
+range(wek)
+```
+## Sortowanie wektora danych
+
+Z pośród innych operacji wykonywanych na wektorach warto wymienić również sortowanie
+
+```{r}
+x = c(5,3,1,7,8,10,9) 
+sort(x)
+```
+
+## Arytmetyka wektorowa
+
+Wektory w R mają osobliwą arytmetykę - nazywaną fachowo pozycyjną
+
+```{r}
+
+x = c(1,2)
+y = c(3,7)
+x+y
+```
+Co prowadzi czasem do sytuacji, że zastanawiamy się jak przejawia sie w mniej typowych sytuacjach
+
+```{r}
+x = c(1,2)
+y = 3
+x+y
+```
+Lub gry mamy doczynienia z wiekszymi i rozmiarami niepasującymi długością. Przeprowadzane jest wtedy automatyczne wydłużenie przez zwielokrotnienie danych
+
+```{r}
+x = c(1,2,3,4,5,6,7,8)
+y = c(-1,1)
+x+y
+```
+Gdy wektory nie zgadzają się co do długości dodatkowo pojawia się o tym ostrzeżenie
+
+```{r}
+x = c(1,2,3,4,5,6,7,8,9)
+y = c(-1,1)
+x+y
+```
+## Szybka inicjalizacja 
+
+Czasami potrzebne są prostsze techniki inicjalizacji wektorów niż ich wypisanie ręczne. Dostępnych w R jest kilka sposobów
+
+```{r}
+x = 1:16
+y = seq(1,15, by=2)
+z = seq(length=15, from=-2, by=3)
+w = rep(7, times=15)
+```
+
+```{r}
+print(x)
+print(y)
+print(z)
+print(w)
+```
+## Wektory logiczne
+
+Z wektorów liczbowych można szybko tworzyć wektory logiczne 
+
+```{r}
+z < 20
+```
+## Selektory do wektorów
+
+Z wektorów możemy tworzyć nowe wektory lub edytować ich zawartość definiując selektor.
+Selektor jest techniką do wskazywania zakresu wektorów.
+
+Dla wektora jednowymiarowego dostęp do pola ma postać `wektor[pozycja]`. Pozycje w R numerowane są od 1 aż do długości wektora
+
+```{r}
+x = c(1,7,2,8,4,0)
+x_l = length(x)
+for (i in 1:x_l) {
+  print(x[i])
+}
+```
+Dodatkowo selektor może dotyczyć zakresów pozycji
+
+```{r}
+x[1:3]
+```
+
+Można też podać dokładne pozycje
+
+```{r}
+x[c(1,3)]
+```
+
+## Działania arytmetyczne
+
+W R jest dostępnych kilka podstawowych działań arytmetycznych
+
+* `+` dodawania
+* `-` odejmowania
+* `*` mnożenie
+* `/` dzielenie
+* `^` potęga
+* `%%` reszta z dzielenia całkowitoliczbowego
+* `%/%` część całkowita w dzieleniu
+
+# Działania macierzowe
+
+Oprócz wektorów mamy dostępne również macierze. Definiowane jako obiekty w R
+
+```{r}
+x = matrix(0,3,4)
+x
+```
+Możemy również zasilić dane w macierzy za pomocą wektora
+
+```{r}
+x = matrix (c(1,2,3), 3,4)
+x
+```
+
+Domyślnie zasilanie odbywa się kolejnymi kolumnami. Można to jednak zmienić
+
+```{r}
+x = matrix (c(1,2,3), 3,4, byrow = TRUE)
+x
+```
+
+
+Na macierzach można wykonywać typowe operacje jak
+
+* `%*%` mnożenie macierzowe
+* `%o%` mnożenie zewnętrzne operatorów
+* `%x%` iloczyn kroneckera (tensorowy)
+* `det()` wyznacznik
+* `solve()` macierz odwrotna
+
+# Listy
+
+Kolejną strukturą danych w R są listy. To nic innego jak zgrupowania nazwanych pól
+
+```{r}
+x=list(imie=c('Piotr','Tomasz'), nazwisko='Nowak', zawod='student', wiek=22)
+x
+```
+
+Ze sposobem odwoływania się do pól postaci
+
+```{r}
+x$nazwisko
+```
+
+# Ramki danych
+
+Połączeniem możliwości list i wektorów są ramki danych czyli dataframes
+
+```{r}
+x = data.frame(indeks=c(165000,165001,165002),imie=c('Artur','Marcin','Kamil'),ocena=c(3,3.5,4))
+x
+```
+
+Z ramki możemy wskazać selektorem całą kolumnę
+
+```{r}
+x$indeks
+```
+lub jej numerem
+
+```{r}
+x[,2]
+```
+
+lub wiersz
+
+```{r}
+x[1,]
+```
+
+# Instrukcje sterujące
+
+R, jak podobne mu języki programowania, ma wyłącznie niezbędną liczbę instrukcji sterujących. Warunkowe, pętle oraz możliwość definiowania funkcji
+
+## Instrukcje warunkowe
+
+Najczęściej stosowana jest klasyczna kalka z C++ (języka w którym zapisano oryginalne R) czyli
+```
+if (warunek){
+ instrukcje warunkowe
+}
+else {
+ instrukcje przy niespełnieniu warunkow
+}
+```
+
+Składnia ta może być dalej rozszerzana do 
+
+```
+if (warunek1)
+{
+
+} else if (warunek2)
+{
+
+}  else 
+{
+
+}
+```
+
+Bloki `else` są zawsze opcjonalne - czyli nie muszą wystąpić.
+
+```{r}
+x = 3
+if (x < 2) {
+  print('Warunek 1')
+} else if(x>4)
+{
+   print('Warunek 2')
+} else 
+{
+  print('Warunek 3')
+}
+```
+
+
+Mniej osób kojarzy, że są dostępne są dwie dodatkowe funkcje warunkowe w R zapewniające warunki
+
+```{r}
+x = 3
+ifelse(x < 2, 'Warunek 1', 'Warunek 2')
+```
+oraz
+
+```{r}
+x = '3'
+switch(x, '3' = print('Warunek 1'), '4' = print('Warunek 2'))
+```
+## Instrukcje pętli
+
+W R dostępne są 3 warunki dla pętli. Najpopularniejsza jest zwyczajowowo instrukcja for
+
+```
+for (zmienna in wektor)
+{
+instrukcje
+}
+```
+
+Najczęściej jest stosowana do przechodzenia pewnych kolekcji danych i wykonywaniu na nich obliczeń.
+
+```{r}
+suma = 0
+for (i in c(1,2,3,4,5))
+{
+  suma = suma + i
+}
+print(suma)
+```
+Pętle while oraz repeat są używane gdy krok pomiędzy pętlami jest zmienny
+
+```{r}
+i = 0
+j = 0
+while (i < 100){
+  j = j + 1
+  i = i + j
+  print(i)
+}
+```
+Pętla while ma warunek sprawdzany na początku. Tymczasem w pętli Repeat definiujemy go tam gdzie chcemy
+
+```{r}
+i = 0
+j = 0
+repeat{
+  j = j + 1
+  i = i + j
+  if ( i > 100) break;
+  print(i)
+}
+```
+## Funkcje 
+
+Ostatnim elementem składni języka R, który jest istotny w pracy z danymi jest definiowanie własnych funkcji.
+
+Funkcja czyli zgrupowanie instrukcji języka w nową całość, często okraszoną parametrami
+
+```{r}
+silnia = function(n){
+  if (n == 1){
+    return(1)
+  }
+  else {
+    return(silnia(n-1)*n)
+  }
+}
+silnia(5)
+```
+
